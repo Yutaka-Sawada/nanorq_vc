@@ -2,6 +2,8 @@
 
 nanorq is a compact, performant implementation of the RaptorQ fountain codes, which is defined in RFC 6330.
 
+Thanks Joseph Calderon for publish the useful library.
+
 # Usable on Microsoft Visual Studio
 
 This is a modified version of [nanorq](https://github.com/sleepybishop/nanorq). 

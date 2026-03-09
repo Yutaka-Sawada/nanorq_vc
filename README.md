@@ -16,4 +16,4 @@ Though the API usage may be strange for Windows programers, this is worth to use
 # Notes
 
 As I changed some, gcc may not compile this modified version. 
-If you use nanorq with gcc on Linux or Unix, you would better use original version.
+If you use nanorq with gcc on Linux or Unix, you would better use [original version](https://github.com/sleepybishop/nanorq).

@@ -226,7 +226,20 @@ int main(int argc, char* argv[]){
 	}
 	full_parity_border = full_parity_count * full_parity_cohort;
 
-	// generate intermediate symbols from the source symbols
+/*
+	// (Optionally) precalculate precode matrix inversion
+	// If this is omitted, precode matrix will be inverted at nanorq_generate_symbols().
+	rv = nanorq_precalculate(rq);
+	if (rv == 0){
+		printf("Failed: nanorq_precalculate, %d\n", rv);
+		free(source_buf);
+		free(parity_buf);
+		nanorq_free(rq);
+		return 1;
+	}
+
+	// (Optionally) generate intermediate symbols from the source symbols
+	// If this is omitted, intermediate symbols will be calculated at nanorq_encode().
 	for (k = 0; k < cohort_count; k++){
 		rv = nanorq_generate_symbols(rq, k, myio);	// SBN index = 0 ~ cohort_count - 1
 		if (rv == 0){
@@ -238,6 +251,7 @@ int main(int argc, char* argv[]){
 			return 1;
 		}
 	}
+*/
 
 	p = parity_buf;
 	for (j = 0; j < parity_count; j++){
@@ -483,12 +497,12 @@ int main(int argc, char* argv[]){
 			// fail at s500 p100
 			if (rv == 0){
 				printf("Failed: nanorq_repair_block SBN(%d), total = %d\n", k, input_count);
-					free(source_buf);
-					free(parity_buf);
-					free(order_buf);
-					free(work_buf);
-					nanorq_free(rq);
-					myio->destroy(myio);
+				free(source_buf);
+				free(parity_buf);
+				free(order_buf);
+				free(work_buf);
+				nanorq_free(rq);
+				myio->destroy(myio);
 				return 1;
 			}
 		}

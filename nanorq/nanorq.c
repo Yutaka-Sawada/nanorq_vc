@@ -394,9 +394,9 @@ size_t nanorq_blocks(nanorq *rq) {
 }
 
 bool nanorq_precalculate(nanorq *rq) {
-  params P = params_init((uint16_t)nanorq_block_symbols(rq, 0));
-  spmat *A = precode_matrix_gen(&P, 0);
-  schedule *S = precode_matrix_invert(&P, A);
+  params *P = &rq->P;
+  spmat *A = precode_matrix_gen(P, 0);
+  schedule *S = precode_matrix_invert(P, A);
   if (S == NULL)
     return false;
   rq->S = S;

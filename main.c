@@ -235,6 +235,7 @@ int main(int argc, char* argv[]){
 		free(source_buf);
 		free(parity_buf);
 		nanorq_free(rq);
+		myio->destroy(myio);
 		return 1;
 	}
 

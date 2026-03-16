@@ -454,7 +454,6 @@ int main(int argc, char* argv[]){
 	}
 */
 
-	start = clock();
 	for (k = 0; k < cohort_count; k++){
 		rv = nanorq_repair_block(rq, myio, k);
 		if (rv == 0){

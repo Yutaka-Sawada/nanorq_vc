@@ -458,7 +458,7 @@ void nanorq_encoder_reset(nanorq *rq, uint8_t sbn) {
   enc->loaded = false;
   enc->inverted = false;
   if (om_P(enc->D))
-    memset(om_P(enc->D), 0, enc->D.rows * enc->D.cols_al);
+    memset(om_P(enc->D), 0, (size_t)enc->D.rows * enc->D.cols_al);
   if (kv_size(enc->repair_bin) > 0) {
     for (int rs = 0; rs < kv_size(enc->repair_bin); rs++)
       om_destroy(&(kv_A(enc->repair_bin, rs).row));

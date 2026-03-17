@@ -288,7 +288,6 @@ nanorq *nanorq_encoder_new_ex(size_t len, uint16_t T, uint16_t K, uint16_t Z,
   rq->src_part = fill_partition(rq->scheme.Kt, (uint16_t)(rq->scheme.Z));
   rq->sub_part = fill_partition(rq->common.T / rq->common.Al, (uint16_t)(rq->scheme.N));
   rq->P = params_init((uint16_t)nanorq_block_symbols(rq, 0));
-  check_cpuid(&rq->P.cf); // detect CPU features
 
   return rq;
 }
@@ -372,7 +371,6 @@ nanorq *nanorq_decoder_new(uint64_t common, uint32_t scheme) {
   rq->src_part = fill_partition(rq->scheme.Kt, (uint16_t)(rq->scheme.Z));
   rq->sub_part = fill_partition(rq->common.T / rq->common.Al, (uint16_t)(rq->scheme.N));
   rq->P = params_init((uint16_t)nanorq_block_symbols(rq, 0));
-  check_cpuid(&rq->P.cf); // detect CPU features
 
   rq->max_esi = 2 * rq->P.Kprime;
   return rq;

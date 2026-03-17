@@ -41,6 +41,8 @@ params params_init(uint16_t K) {
   while (!is_prime(P.P1))
     P.P1++;
 
+  check_cpuid(&P.cf); // detect CPU features
+
   return P;
 }
 

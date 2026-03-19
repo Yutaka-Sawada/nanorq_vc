@@ -76,7 +76,7 @@ void wrkmat_set(wrkmat *w, int i, int j, uint8_t b) {
 void wrkmat_axpy(wrkmat *w, int i, int j, int beta) {
   if (w->type[i] == w->type[j]) {
     if (w->type[i]) {
-      w->GF256.cf->oaxpy(om_P(w->GF256), om_P(w->GF256), w->rowmap[i], w->rowmap[j], w->cols, beta);
+      cpu_oaxpy(om_P(w->GF256), om_P(w->GF256), w->rowmap[i], w->rowmap[j], w->cols, beta);
       gf2mat_xor(w->GF2, w->GF2, i, j);
     } else {
       gf2mat_xor(w->GF2, w->GF2, i, j);
@@ -85,7 +85,7 @@ void wrkmat_axpy(wrkmat *w, int i, int j, int beta) {
     // if target row is in gf256, axpy in place from gf2 row
     if (w->type[i]) {
       uint32_t *tmp = w->GF2->bits + w->GF2->stride * j;
-      w->GF256.cf->oaxpy_b32(om_P(w->GF256), tmp, w->rowmap[i], w->cols, beta); // select CPU specific function
+      cpu_oaxpy_b32(om_P(w->GF256), tmp, w->rowmap[i], w->cols, beta);
     } else {
       if (w->blkidx >= w->GF256.rows) {
         printf("%s:%d -- unhandled axpy into gf2 row %d from gf256 row %d with "
@@ -98,14 +98,14 @@ void wrkmat_axpy(wrkmat *w, int i, int j, int beta) {
       w->type[i] = 1; // row i is now a gf256 row
       w->rowmap[i] = (int)(w->blkidx);
       w->blkidx++;
-      w->GF256.cf->oaxpy(om_P(w->GF256), om_P(w->GF256), w->rowmap[i], w->rowmap[j], w->cols, beta);
+      cpu_oaxpy(om_P(w->GF256), om_P(w->GF256), w->rowmap[i], w->rowmap[j], w->cols, beta);
     }
   }
 }
 
 void wrkmat_scal(wrkmat *w, int i, int beta) {
   if (w->type[i]) {
-    w->GF256.cf->oscal(om_P(w->GF256), w->rowmap[i], w->cols, beta);
+    cpu_oscal(om_P(w->GF256), w->rowmap[i], w->cols, beta);
   } else {
     printf("%s:%d -- unhandled scal row %d by beta %d ,  %d\n", __FILE__,
            __LINE__, i, beta, OCT_INV[beta]);

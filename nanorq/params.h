@@ -1,7 +1,6 @@
 #ifndef NANORQ_PARAMS_H
 #define NANORQ_PARAMS_H
 
-#include "oblas.h"
 #include "table2.h"
 #include "util.h"
 #include <stdbool.h>
@@ -17,7 +16,6 @@ typedef struct {
   uint16_t U;
   uint16_t B;
   uint16_t J;
-  struct cpu_func cf; // address of CPU functions
 } params;
 
 params params_init(uint16_t symbols);

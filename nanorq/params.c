@@ -1,6 +1,7 @@
 #include "params.h"
 #include "rand.h"
 #include "tuple.h"
+#include "oblas.h"
 
 static bool is_prime(uint16_t n) {
   if (n <= 1)
@@ -41,7 +42,7 @@ params params_init(uint16_t K) {
   while (!is_prime(P.P1))
     P.P1++;
 
-  check_cpuid(&P.cf); // detect CPU features
+  check_cpuid(); // detect CPU features
 
   return P;
 }

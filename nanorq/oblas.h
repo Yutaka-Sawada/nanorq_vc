@@ -67,13 +67,18 @@ void oaxpy_b32_avx(uint8_t *a, uint32_t *b, size_t i, size_t k, uint8_t u);
 #endif
 
 // CPU specific functions
-struct cpu_func {
-  void (*oswaprow)(uint8_t *a, size_t i, size_t j, size_t k);
-  void (*oaxpy)(uint8_t *a, uint8_t *b, size_t i, size_t j, size_t k, uint8_t u);
-  void (*oscal)(uint8_t *a, size_t i, size_t k, uint8_t u);
-  void (*oaxpy_b32)(uint8_t *a, uint32_t *b, size_t i, size_t k, uint8_t u);
-};
+void check_cpuid(void);
 
-void check_cpuid(struct cpu_func *);
+typedef void (* CPU_OSWAPROW) (uint8_t *a, size_t i, size_t j, size_t k);
+CPU_OSWAPROW cpu_oswaprow;
+
+typedef void (* CPU_OAXPY) (uint8_t *a, uint8_t *b, size_t i, size_t j, size_t k, uint8_t u);
+CPU_OAXPY cpu_oaxpy;
+
+typedef void (* CPU_OSCAL) (uint8_t *a, size_t i, size_t k, uint8_t u);
+CPU_OSCAL cpu_oscal;
+
+typedef void (* CPU_OAXPY_B32) (uint8_t *a, uint32_t *b, size_t i, size_t k, uint8_t u);
+CPU_OAXPY_B32 cpu_oaxpy_b32;
 
 #endif

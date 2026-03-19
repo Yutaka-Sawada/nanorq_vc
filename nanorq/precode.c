@@ -4,7 +4,7 @@ static void precode_matrix_permute(octmat *D, int P[], int n) {
   for (int i = 0; i < n; i++) {
     int at = i, mark = -1;
     while (P[at] >= 0) {
-      D->cf->oswaprow(om_P(*D), i, P[at], D->cols); // select CPU specific function
+      cpu_oswaprow(om_P(*D), i, P[at], D->cols);
       int tmp = P[at];
       P[at] = mark;
       at = tmp;
@@ -15,9 +15,9 @@ static void precode_matrix_permute(octmat *D, int P[], int n) {
 static void precode_matrix_apply_op(octmat *D, schedule *S, int i) {
   sched_op op = kv_A(S->ops, i);
   if (op.beta)
-    D->cf->oaxpy(om_P(*D), om_P(*D), op.i, op.j, D->cols, op.beta); // select CPU specific function
+    cpu_oaxpy(om_P(*D), om_P(*D), op.i, op.j, D->cols, op.beta);
   else
-    D->cf->oscal(om_P(*D), op.i, D->cols, op.j); // select CPU specific function
+    cpu_oscal(om_P(*D), op.i, D->cols, op.j);
 }
 
 static void precode_matrix_apply_sched(octmat *D, schedule *S) {
@@ -232,7 +232,6 @@ static void precode_matrix_fill_U(wrkmat *U, spmat *A, spmat *AT, schedule *S) {
 static void precode_matrix_fill_HDPC(params *P, wrkmat *U, schedule *S) {
   octmat UL = OM_INITIAL, HDPC = precode_matrix_make_HDPC(P);
   om_resize(&UL, 2 * P->H, S->u);
-  UL.cf = &P->cf; // refer CPU feature
   for (int row = 0; row < P->H; row++) {
     for (unsigned col = 0; col < UL.cols - P->H; col++)
       om_A(UL, row, col) =

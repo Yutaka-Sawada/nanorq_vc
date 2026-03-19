@@ -133,7 +133,6 @@ static struct block_encoder *get_block_encoder(nanorq *rq, uint8_t sbn) {
 
   struct block_encoder *enc = calloc(1, sizeof(struct block_encoder));
   enc->K = (uint16_t)nanorq_block_symbols(rq, sbn);
-  enc->D.cf = &rq->P.cf; // refer CPU feature
 
   int spare = 0;
   if (rq->max_esi) {

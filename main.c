@@ -361,6 +361,13 @@ int main(int argc, char* argv[]){
 	value_mb = (double)source_size / 1000000.f;
 	printf("work data size = %zd bytes = %g KB = %g MB\n", source_size, value_kb, value_mb);
 
+	finish = clock();
+	duration = (double)(finish - start) / CLOCKS_PER_SEC;
+	printf(" ... %.3f seconds\n", duration);
+
+	printf("\n decode ...\n");
+	start = clock();
+
 	// initialize nanorq decoder
 	rq = nanorq_decoder_new(oti_common, oti_scheme);
 	if (rq == NULL){
@@ -374,13 +381,6 @@ int main(int argc, char* argv[]){
 
 	// nanorq decoder writes recovered source data on this.
 	myio = ioctx_from_mem(work_buf, source_size);
-
-	finish = clock();
-	duration = (double)(finish - start) / CLOCKS_PER_SEC;
-	printf(" ... %.3f seconds\n", duration);
-
-	printf("\n decode ...\n");
-	start = clock();
 
 	// input available source data at first
 	max = source_count - lost_count;

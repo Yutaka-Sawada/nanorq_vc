@@ -1,29 +1,33 @@
 #ifndef NANORQ_UTIL_H
 #define NANORQ_UTIL_H
 
+#include "obl/oblas_lite.h"
+#include "uvec.h"
+#ifndef NANORQ_NO_LIBC
 #include <assert.h>
-#include <stdint.h>
-#include <string.h>
+#else
+/* embedded: assert is unreachable hint for no libc */
+#define assert(x) ((void)(x))
+#endif
 
-#include "octmat.h"
-#include "kvec.h"
+extern struct oblas_impl nanorq_oblas;
 
-#define div_ceil(A, B) ((A) / (B) + ((A) % (B) ? 1 : 0))
-#define div_floor(A, B) ((A) / (B))
+#define OBLAS_DEFAULT_ALIGN 32
 
-#define TMPSWAP(type, a, b)                                                    \
+static inline size_t get_align_size(void) {
+  return nanorq_oblas.align_size > 0 ? nanorq_oblas.align_size
+                                     : OBLAS_DEFAULT_ALIGN;
+}
+
+#define OCT_EXP GF2_8_EXP
+#define OCT_LOG GF2_8_LOG
+#define OCT_INV GF2_8_INV
+
+#define TMPSWAP(t, a, b)                                                       \
   do {                                                                         \
-    type __tmp = a;                                                            \
+    t __tmp = a;                                                               \
     a = b;                                                                     \
     b = __tmp;                                                                 \
   } while (0)
-
-typedef struct {
-  uint32_t esi;
-  octmat row;
-} repair_sym;
-
-typedef kvec_t(repair_sym) repair_vec;
-typedef kvec_t(unsigned) uint_vec;
 
 #endif

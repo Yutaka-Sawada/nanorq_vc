@@ -1,4 +1,9 @@
-﻿
+﻿/*
+This is a sample of how to use nanorq.
+
+To use data on RAM, it calls ioctx_from_mem().
+*/
+
 #include <inttypes.h>
 #include <memory.h>
 #include <stdio.h>
@@ -36,7 +41,7 @@ void pcg32_srandom(uint64_t seed, uint64_t seq)
 
 uint32_t pcg32_boundedrand(uint32_t bound)
 {
-    uint32_t threshold = (uint32_t)(-(int32_t)bound) % bound;
+    uint32_t threshold = (0 - bound) % bound;
 
     for (;;) {
         uint32_t r = pcg32_random();
@@ -140,6 +145,16 @@ int main(int argc, char* argv[]){
 		for (j = 0; j < max; j++)
 			int_p[j] = pcg32_random();
 	}
+
+/* write source data on a file
+{
+	FILE *fp;
+	if (fopen_s(&fp, "source1.bin", "wb") == 0){
+		fwrite(source_buf, 1, source_size, fp);
+		fclose(fp);
+	}
+}
+*/
 
 	// fill parity data with zero
 	malloc_size = each_size * parity_count;
@@ -297,6 +312,16 @@ int main(int argc, char* argv[]){
 	output_speed = (double)output_size / 1000000.f / duration;
 	printf("nanorq Encoder(%g MB in %d pieces, %d parities): Input= %g MB/s, Output= %g MB/s\n",
 			value_mb, source_count, parity_count, input_speed, output_speed);
+
+/* write parity data on a file
+{
+	FILE *fp;
+	if (fopen_s(&fp, "parity1.bin", "wb") == 0){
+		fwrite(parity_buf, 1, output_size, fp);
+		fclose(fp);
+	}
+}
+*/
 
 	start = clock();
 	printf("\n set %d random error and allocate memory ...\n", lost_count);

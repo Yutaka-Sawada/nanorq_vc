@@ -9,8 +9,8 @@ This is a modified version of [nanorq](https://github.com/ursoid-tech/nanorq).
 Because the original nanorq cannot be compiled on Microsoft Visual Studio, 
 I changed some points for compatibility with Microsoft Visual C.
 
-To enable atomic functions, you must use Microsoft Visual Studio 2022 (version 17.5 or later). 
-It requires compiler option "`/std:c11`" or "`/std:c17`". 
+To enable atomic functions, you must use Microsoft Visual Studio 2022 (version 17.5 or later).  
+It requires compiler option "`/std:c11`" or "`/std:c17`".  
 It requires "`/experimental:c11atomics`" as additional compiler option, too.
 
 # Notes

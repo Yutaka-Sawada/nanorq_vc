@@ -1,6 +1,6 @@
 
 nanorq
-RaptorQ RFC 6330 library for gcc
+fast compact rateless codec
 https://github.com/ursoid-tech/nanorq
 
 MIT License
@@ -29,6 +29,6 @@ mman-win32
 mman library for Windows. mirror of https://code.google.com/p/mman-win32/
 https://github.com/alitrack/mman-win32
 
-header-only Windows implementation of the `<unistd.h>` header.
+header-only Windows implementation of the <unistd.h> header.
 https://github.com/win32ports/unistd_h
 
